@@ -9,8 +9,9 @@ const AIR_ACCELERATION: float = 600.0
 const SPEED: float = 250.0
 const COUGH_SPEED: float = 350.0
 const JUMP_VELOCITY: float = -300.0
-const GRAVITY: float = 600.0
+const GRAVITY: float = 650.0
 const SPED_UP_GRAVITY: float = 1200.0
+const MAX_Y_VELOCITY: float = 500.0 
 const HIT_POWER: float = 100.0
 
 func _physics_process(delta: float) -> void:
@@ -20,8 +21,8 @@ func _physics_process(delta: float) -> void:
 func process_movement(delta: float) -> void:
 	var was_on_floor: bool = is_on_floor()
 	if not was_on_floor:
-		var gravity: float = SPED_UP_GRAVITY if Input.is_action_pressed("fall") else GRAVITY;
-		velocity.y += gravity * delta
+		var gravity: float = SPED_UP_GRAVITY if Input.is_action_pressed("fall") else GRAVITY
+		velocity.y = move_toward(velocity.y, MAX_Y_VELOCITY, gravity * delta)
 
 	var direction: float = Input.get_axis("left", "right")
 	var acceleration: float = (GROUND_ACCELERATION if is_on_floor() else AIR_ACCELERATION) * delta
@@ -46,6 +47,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			coyote_jump_timer.stop()
 		else:
 			jump_buffer_timer.start()
+	
+	if event.is_action_pressed("fall") and not is_on_floor():
+		velocity.y += 100.0
 	
 	if event.is_action_pressed("cough"):
 		cougher.cough()
