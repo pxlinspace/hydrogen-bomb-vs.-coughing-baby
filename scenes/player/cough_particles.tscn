@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://02nwrd23es8q"]
+
+[ext_resource type="Script" uid="uid://l7dx2jskpy2l" path="res://scenes/player/cough_particles.gd" id="1_wmd5b"]
+
+[sub_resource type="Curve" id="Curve_qhqgy"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.00034332275), -2.0494893, 0.0, 0, 0]
+point_count = 2
+
+[node name="CoughParticles" type="CPUParticles2D" unique_id=1782316832]
+emitting = false
+amount = 32
+lifetime = 0.6
+one_shot = true
+explosiveness = 0.9
+spread = 36.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 150.0
+damping_min = 100.0
+damping_max = 200.0
+scale_amount_min = 2.0
+scale_amount_max = 6.0
+scale_amount_curve = SubResource("Curve_qhqgy")
+script = ExtResource("1_wmd5b")
+
+[connection signal="finished" from="." to="." method="_on_finished"]
