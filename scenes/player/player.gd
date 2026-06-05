@@ -3,6 +3,7 @@ extends CharacterBody2D
 @onready var coyote_jump_timer: Timer = $CoyoteJumpTimer
 @onready var jump_buffer_timer: Timer = $JumpBufferTimer
 @onready var cougher: Cougher = $Cougher
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 const GROUND_ACCELERATION: float = 800.0
 const AIR_ACCELERATION: float = 600.0
@@ -20,6 +21,19 @@ const HIT_POWER: float = 100.0
 func _physics_process(delta: float) -> void:
 	cougher.set_particle_rotation(get_local_mouse_position().angle())
 	_process_movement(delta)
+	_update_animation()
+
+
+func _update_animation() -> void:
+	if is_on_floor():
+		sprite.play("default" if velocity.x == 0 else "walk")
+	elif Input.is_action_pressed("dive"):
+		sprite.play("dive")
+	elif is_on_wall_only():
+		sprite.play("wall")
+	else:
+		sprite.play("jump_rise" if velocity.y > 0 else "jump_fall")
+
 
 func _process_movement(delta: float) -> void:
 	var was_on_floor: bool = is_on_floor()
@@ -45,15 +59,20 @@ func _process_movement(delta: float) -> void:
 	if not jump_buffer_timer.is_stopped():
 		if is_on_floor():
 			jump_buffer_timer.stop()
-			velocity.y = JUMP_VELOCITY
+			_apply_jump()
 		elif is_on_wall_only():
 			_apply_wall_jump()
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("left"):
+		sprite.flip_h = true
+	elif event.is_action_pressed("right"):
+		sprite.flip_h = false
+	
 	if event.is_action_pressed("jump"):
 		if is_on_floor() or not coyote_jump_timer.is_stopped():
-			velocity.y = JUMP_VELOCITY
+			_apply_jump()
 			coyote_jump_timer.stop()
 		elif is_on_wall_only():
 			_apply_wall_jump()
@@ -66,6 +85,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("cough"):
 		if cougher.cough():
 			velocity = -get_local_mouse_position().normalized() * COUGH_SPEED
+
+
+func _apply_jump() -> void:
+	velocity.y = JUMP_VELOCITY
 
 
 func _apply_wall_jump() -> void:

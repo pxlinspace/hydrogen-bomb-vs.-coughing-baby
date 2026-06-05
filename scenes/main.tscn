@@ -19,7 +19,7 @@ sources/0 = SubResource("TileSetAtlasSource_vtm10")
 [node name="Stage" type="Node2D" parent="." unique_id=1875758802]
 
 [node name="Player" parent="Stage" unique_id=1106602383 instance=ExtResource("1_0wfyh")]
-position = Vector2(158, -331)
+position = Vector2(69, 189)
 
 [node name="Camera2D" type="Camera2D" parent="Stage/Player" unique_id=524223279]
 zoom = Vector2(2, 2)
