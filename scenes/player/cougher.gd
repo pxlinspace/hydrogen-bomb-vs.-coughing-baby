@@ -54,8 +54,10 @@ func _on_pause_timer_timeout() -> void:
 	width_tween.tween_callback(func() -> void:
 		_charged_ring_radius = 0
 		_is_tweening = false
+		queue_redraw()
 	)
 
 
 func _draw() -> void:
-	draw_circle(Vector2.ZERO, _charged_ring_radius, Color.WHITE, false, _charged_ring_width)
+	if _is_tweening:
+		draw_circle(Vector2.ZERO, _charged_ring_radius, Color.WHITE, false, _charged_ring_width)

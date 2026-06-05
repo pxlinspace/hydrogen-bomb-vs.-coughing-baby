@@ -32,7 +32,7 @@ func _update_animation() -> void:
 	elif is_on_wall_only():
 		sprite.play("wall")
 	else:
-		sprite.play("jump_rise" if velocity.y > 0 else "jump_fall")
+		sprite.play("jump_fall" if velocity.y > 0 else "jump_rise")
 
 
 func _process_movement(delta: float) -> void:

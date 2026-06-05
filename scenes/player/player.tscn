@@ -130,14 +130,6 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_gx1jg")
-}],
-"loop": true,
-"name": &"jump_fall",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gx1jg")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ugbui")
@@ -149,8 +141,16 @@ animations = [{
 "texture": SubResource("AtlasTexture_myrg7")
 }],
 "loop": true,
-"name": &"jump_rise",
+"name": &"jump_fall",
 "speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gx1jg")
+}],
+"loop": true,
+"name": &"jump_rise",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -173,7 +173,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk",
-"speed": 10.0
+"speed": 18.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -224,6 +224,6 @@ texture_progress = ExtResource("4_p47bc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=931994068]
 sprite_frames = SubResource("SpriteFrames_5gtgg")
-animation = &"jump_fall"
+animation = &"walk"
 
 [connection signal="timeout" from="Cougher/PauseTimer" to="Cougher" method="_on_pause_timer_timeout"]
