@@ -27,10 +27,11 @@ one_shot = true
 script = ExtResource("2_g2els")
 
 [node name="PauseTimer" type="Timer" parent="Cougher" unique_id=205898629]
-wait_time = 0.75
+wait_time = 1.2
 one_shot = true
 
 [node name="PauseTimerBar" type="TextureProgressBar" parent="Cougher" unique_id=1116376902]
+visible = false
 z_index = 1
 offset_left = -14.0
 offset_top = -14.0
@@ -38,7 +39,6 @@ offset_right = 14.0
 offset_bottom = 14.0
 max_value = 1.0
 step = 0.01
-value = 0.4
 fill_mode = 4
 nine_patch_stretch = true
 texture_progress = ExtResource("4_p47bc")
@@ -48,3 +48,5 @@ texture_progress = ExtResource("4_p47bc")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=211179988]
 scale = Vector2(0.125, 0.125)
 texture = ExtResource("4_lvxji")
+
+[connection signal="timeout" from="Cougher/PauseTimer" to="Cougher" method="_on_pause_timer_timeout"]

@@ -9,6 +9,8 @@ const AIR_ACCELERATION: float = 600.0
 const SPEED: float = 250.0
 const COUGH_SPEED: float = 350.0
 const JUMP_VELOCITY: float = -300.0
+const WALL_JUMP_VELOCITY := Vector2(150, -250)
+const INITIAL_DIVE_VELOCITY: float = 100.0
 const GRAVITY: float = 650.0
 const DIVE_GRAVITY: float = 1200.0
 const MAX_Y_VELOCITY: float = 500.0
@@ -17,9 +19,9 @@ const HIT_POWER: float = 100.0
 
 func _physics_process(delta: float) -> void:
 	cougher.set_particle_rotation(get_local_mouse_position().angle())
-	process_movement(delta)
+	_process_movement(delta)
 
-func process_movement(delta: float) -> void:
+func _process_movement(delta: float) -> void:
 	var was_on_floor: bool = is_on_floor()
 	if not was_on_floor:
 		var gravity: float = GRAVITY
@@ -40,9 +42,12 @@ func process_movement(delta: float) -> void:
 	
 	if was_on_floor and not is_on_floor():
 		coyote_jump_timer.start()
-	if is_on_floor() and not jump_buffer_timer.is_stopped():
-		jump_buffer_timer.stop()
-		velocity.y = JUMP_VELOCITY
+	if not jump_buffer_timer.is_stopped():
+		if is_on_floor():
+			jump_buffer_timer.stop()
+			velocity.y = JUMP_VELOCITY
+		elif is_on_wall_only():
+			_apply_wall_jump()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -50,12 +55,19 @@ func _unhandled_input(event: InputEvent) -> void:
 		if is_on_floor() or not coyote_jump_timer.is_stopped():
 			velocity.y = JUMP_VELOCITY
 			coyote_jump_timer.stop()
+		elif is_on_wall_only():
+			_apply_wall_jump()
 		else:
 			jump_buffer_timer.start()
 	
 	if event.is_action_pressed("dive") and not is_on_floor():
-		velocity.y = 100.0
+		velocity.y = INITIAL_DIVE_VELOCITY
 	
 	if event.is_action_pressed("cough"):
 		if cougher.cough():
 			velocity = -get_local_mouse_position().normalized() * COUGH_SPEED
+
+
+func _apply_wall_jump() -> void:
+	velocity.y = WALL_JUMP_VELOCITY.y
+	velocity.x = WALL_JUMP_VELOCITY.x * (-1 if get_wall_normal().x < 0 else 1)
