@@ -5,13 +5,14 @@ extends CharacterBody2D
 @onready var cougher: Cougher = $Cougher
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
-const GROUND_ACCELERATION: float = 800.0
-const AIR_ACCELERATION: float = 600.0
+const GROUND_ACCELERATION: float = 1600.0
+const AIR_ACCELERATION: float = 800.0
 const SPEED: float = 250.0
 const COUGH_SPEED: float = 350.0
 const JUMP_VELOCITY: float = -300.0
 const WALL_JUMP_VELOCITY := Vector2(150, -250)
-const INITIAL_DIVE_VELOCITY: float = 100.0
+const INITIAL_DIVE_VELOCITY: float = 200.0
+const INITIAL_DIVE_HORIZONTAL_FACTOR: float = 0.75
 const GRAVITY: float = 650.0
 const DIVE_GRAVITY: float = 1200.0
 const MAX_Y_VELOCITY: float = 500.0
@@ -19,12 +20,18 @@ const MAX_DIVE_Y_VELOCITY: float = 700.0
 const HIT_POWER: float = 100.0
 
 func _physics_process(delta: float) -> void:
-	cougher.set_particle_rotation(get_local_mouse_position().angle())
 	_process_movement(delta)
 	_update_animation()
 
 
 func _update_animation() -> void:
+	if is_on_wall_only():
+		sprite.flip_h = get_wall_normal().x > 0
+	elif Input.is_action_pressed("left"):
+		sprite.flip_h = true
+	elif Input.is_action_pressed("right"):
+		sprite.flip_h = false
+	
 	if is_on_floor():
 		sprite.play("default" if velocity.x == 0 else "walk")
 	elif Input.is_action_pressed("dive"):
@@ -65,11 +72,6 @@ func _process_movement(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("left"):
-		sprite.flip_h = true
-	elif event.is_action_pressed("right"):
-		sprite.flip_h = false
-	
 	if event.is_action_pressed("jump"):
 		if is_on_floor() or not coyote_jump_timer.is_stopped():
 			_apply_jump()
@@ -80,11 +82,17 @@ func _unhandled_input(event: InputEvent) -> void:
 			jump_buffer_timer.start()
 	
 	if event.is_action_pressed("dive") and not is_on_floor():
+		velocity.x *= INITIAL_DIVE_HORIZONTAL_FACTOR
 		velocity.y = INITIAL_DIVE_VELOCITY
 	
 	if event.is_action_pressed("cough"):
-		if cougher.cough():
-			velocity = -get_local_mouse_position().normalized() * COUGH_SPEED
+		if cougher.cough(-Input.get_vector("left", "right", "up", "down").angle()):
+			_apply_cough_impulse()
+
+
+func _apply_cough_impulse() -> void:
+	velocity = Input.get_vector("left", "right", "up", "down") * COUGH_SPEED
+	#velocity = -get_local_mouse_position().normalized() * COUGH_SPEED
 
 
 func _apply_jump() -> void:

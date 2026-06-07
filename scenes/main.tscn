@@ -52,6 +52,6 @@ offset_bottom = 95.0
 scale = Vector2(0.25, 0.25)
 theme_override_font_sizes/font_size = 32
 text = "[A] or [D] to move
-[W] or [Space] to jump
+[J] to jump
 [S] to speed fall
 [Left Click] to boost in the mouse's opposite direction"

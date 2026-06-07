@@ -18,7 +18,8 @@ func set_particle_rotation(angle: float) -> void:
 	particle_container.rotation = angle
 
 
-func cough() -> bool:
+func cough(angle: float = particle_container.rotation) -> bool:
+	set_particle_rotation(angle)
 	if pause_timer.is_stopped():
 		pause_timer.start()
 		pause_timer_bar.show()
