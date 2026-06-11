@@ -1,23 +1,28 @@
 extends CharacterBody2D
 
-@onready var coyote_jump_timer: Timer = $CoyoteJumpTimer
-@onready var jump_buffer_timer: Timer = $JumpBufferTimer
-@onready var cougher: Cougher = $Cougher
-@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 const GROUND_ACCELERATION: float = 1600.0
 const AIR_ACCELERATION: float = 800.0
 const SPEED: float = 250.0
 const COUGH_SPEED: float = 350.0
-const JUMP_VELOCITY: float = -300.0
-const WALL_JUMP_VELOCITY := Vector2(150, -250)
+const JUMP_VELOCITY: float = -220.0
+const WALL_JUMP_VELOCITY := Vector2(200, -300)
 const INITIAL_DIVE_VELOCITY: float = 200.0
 const INITIAL_DIVE_HORIZONTAL_FACTOR: float = 0.75
-const GRAVITY: float = 650.0
+const GRAVITY: float = 800.0
 const DIVE_GRAVITY: float = 1200.0
 const MAX_Y_VELOCITY: float = 500.0
 const MAX_DIVE_Y_VELOCITY: float = 700.0
 const HIT_POWER: float = 100.0
+
+@onready var coyote_jump_timer: Timer = $CoyoteJumpTimer
+@onready var jump_buffer_timer: Timer = $JumpBufferTimer
+@onready var jump_duration_timer: Timer = $JumpDurationTimer
+@onready var cougher: Cougher = $Cougher
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+
+var last_direction: float = 1.0
+
 
 func _physics_process(delta: float) -> void:
 	_process_movement(delta)
@@ -44,7 +49,7 @@ func _update_animation() -> void:
 
 func _process_movement(delta: float) -> void:
 	var was_on_floor: bool = is_on_floor()
-	if not was_on_floor:
+	if not was_on_floor and jump_duration_timer.is_stopped():
 		var gravity: float = GRAVITY
 		var max_y_velocity: float = MAX_DIVE_Y_VELOCITY
 		if Input.is_action_pressed("dive"):
@@ -53,6 +58,9 @@ func _process_movement(delta: float) -> void:
 		velocity.y = move_toward(velocity.y, max_y_velocity, gravity * delta)
 
 	var direction: float = Input.get_axis("left", "right")
+	if direction != 0:
+		last_direction = direction
+	
 	var acceleration: float = (GROUND_ACCELERATION if is_on_floor() else AIR_ACCELERATION) * delta
 	if direction:
 		velocity.x = move_toward(velocity.x, direction * SPEED, acceleration)
@@ -80,23 +88,34 @@ func _unhandled_input(event: InputEvent) -> void:
 			_apply_wall_jump()
 		else:
 			jump_buffer_timer.start()
+	if event.is_action_released("jump"):
+		_stop_jump()
 	
 	if event.is_action_pressed("dive") and not is_on_floor():
 		velocity.x *= INITIAL_DIVE_HORIZONTAL_FACTOR
 		velocity.y = INITIAL_DIVE_VELOCITY
 	
 	if event.is_action_pressed("cough"):
-		if cougher.cough(-Input.get_vector("left", "right", "up", "down").angle()):
-			_apply_cough_impulse()
+		var direction: Vector2 = Input.get_vector("left", "right", "up", "down")
+		if direction == Vector2.ZERO:
+			direction = Vector2(last_direction, 0)
+		print(direction)
+		if cougher.cough((-direction).angle()):
+			_apply_cough_impulse(direction)
 
 
-func _apply_cough_impulse() -> void:
-	velocity = Input.get_vector("left", "right", "up", "down") * COUGH_SPEED
+func _apply_cough_impulse(direction: Vector2) -> void:
+	velocity = direction * COUGH_SPEED
 	#velocity = -get_local_mouse_position().normalized() * COUGH_SPEED
 
 
 func _apply_jump() -> void:
+	jump_duration_timer.start()
 	velocity.y = JUMP_VELOCITY
+
+
+func _stop_jump() -> void:
+	jump_duration_timer.stop()
 
 
 func _apply_wall_jump() -> void:

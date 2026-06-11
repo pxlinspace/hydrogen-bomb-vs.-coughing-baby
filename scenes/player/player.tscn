@@ -125,7 +125,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"dive",
-"speed": 18.0
+"speed": 30.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -200,6 +200,10 @@ one_shot = true
 wait_time = 0.06
 one_shot = true
 
+[node name="JumpDurationTimer" type="Timer" parent="." unique_id=1362409145]
+wait_time = 0.2
+one_shot = true
+
 [node name="Cougher" type="Node2D" parent="." unique_id=610894378]
 script = ExtResource("2_g2els")
 
@@ -224,6 +228,8 @@ texture_progress = ExtResource("4_p47bc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=931994068]
 sprite_frames = SubResource("SpriteFrames_5gtgg")
-animation = &"walk"
+animation = &"dive"
+frame = 1
+frame_progress = 0.40807983
 
 [connection signal="timeout" from="Cougher/PauseTimer" to="Cougher" method="_on_pause_timer_timeout"]
