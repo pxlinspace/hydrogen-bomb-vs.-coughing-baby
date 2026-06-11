@@ -30,6 +30,10 @@ func _physics_process(delta: float) -> void:
 
 
 func _update_animation() -> void:
+	var anim: String = sprite.animation
+	if sprite.is_playing() and (anim == "cough_side" or anim =="cough_down" or anim == "cough_up"):
+		return
+	
 	if is_on_wall_only():
 		sprite.flip_h = get_wall_normal().x > 0
 	elif Input.is_action_pressed("left"):
@@ -105,7 +109,12 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _apply_cough_impulse(direction: Vector2) -> void:
 	velocity = direction * COUGH_SPEED
-	#velocity = -get_local_mouse_position().normalized() * COUGH_SPEED
+	if velocity.x != 0:
+		sprite.play("cough_side")
+	elif velocity.y < 0:
+		sprite.play("cough_down")
+	else:
+		sprite.play("cough_up")
 
 
 func _apply_jump() -> void:

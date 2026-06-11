@@ -18,6 +18,7 @@ var _is_tweening: bool = false
 
 func play_cough_sound() -> void:
 	cough_sounds.get_child(randi_range(0, cough_sounds.get_child_count()-1)).play()
+	boost_sound.pitch_scale = randf_range(0.8, 1.2)
 	boost_sound.play()
 
 
