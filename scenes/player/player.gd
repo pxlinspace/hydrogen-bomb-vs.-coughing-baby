@@ -99,7 +99,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		var direction: Vector2 = Input.get_vector("left", "right", "up", "down")
 		if direction == Vector2.ZERO:
 			direction = Vector2(last_direction, 0)
-		print(direction)
 		if cougher.cough((-direction).angle()):
 			_apply_cough_impulse(direction)
 

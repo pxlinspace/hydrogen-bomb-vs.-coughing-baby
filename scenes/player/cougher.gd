@@ -12,6 +12,13 @@ var _is_tweening: bool = false
 @onready var pause_timer: Timer = $PauseTimer
 @onready var pause_timer_bar: TextureProgressBar = $PauseTimerBar
 @onready var particle_container: Node2D = $ParticleContainer
+@onready var cough_sounds: Node = $CoughSounds
+@onready var boost_sound: AudioStreamPlayer = $BoostSound
+
+
+func play_cough_sound() -> void:
+	cough_sounds.get_child(randi_range(0, cough_sounds.get_child_count()-1)).play()
+	boost_sound.play()
 
 
 func set_particle_rotation(angle: float) -> void:
@@ -26,6 +33,7 @@ func cough(angle: float = particle_container.rotation) -> bool:
 		var particles: CPUParticles2D = COUGH_PARTICLES.instantiate()
 		particles.emitting = true
 		particle_container.add_child(particles)
+		play_cough_sound()
 		return true
 	return false
 

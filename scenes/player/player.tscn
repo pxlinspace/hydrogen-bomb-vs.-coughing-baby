@@ -3,7 +3,16 @@
 [ext_resource type="Script" uid="uid://b7abxfn01i5ug" path="res://scenes/player/player.gd" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://cfn4yfxd2pbk2" path="res://scenes/player/cougher.gd" id="2_g2els"]
 [ext_resource type="Texture2D" uid="uid://cx7qewk1lfa1i" path="res://assets/images/baby-Sheet.png" id="4_75vfm"]
+[ext_resource type="AudioStream" uid="uid://cwfd3v0cqska6" path="res://assets/audio/coughs/cough1.wav" id="4_fm80t"]
 [ext_resource type="Texture2D" uid="uid://bm3ckabkyunfj" path="res://assets/images/cough-bar-temp.png" id="4_p47bc"]
+[ext_resource type="AudioStream" uid="uid://bg8mgn1uvrxer" path="res://assets/audio/coughs/cough2.wav" id="5_gx1jg"]
+[ext_resource type="AudioStream" uid="uid://c1w6jjgr5g8gq" path="res://assets/audio/coughs/cough3.wav" id="6_ugbui"]
+[ext_resource type="AudioStream" uid="uid://c4mmmqxlh4y62" path="res://assets/audio/coughs/cough4.wav" id="7_fcs02"]
+[ext_resource type="AudioStream" uid="uid://cihy36mfj2mky" path="res://assets/audio/coughs/cough5.wav" id="8_myrg7"]
+[ext_resource type="AudioStream" uid="uid://1d7t5xgpyv2s" path="res://assets/audio/coughs/cough6.wav" id="9_kvlxm"]
+[ext_resource type="AudioStream" uid="uid://dtkop3lcxp308" path="res://assets/audio/coughs/cough7.wav" id="10_uf5tr"]
+[ext_resource type="AudioStream" uid="uid://bwgpgeyfk753w" path="res://assets/audio/boost.wav" id="11_gx1jg"]
+[ext_resource type="AudioStream" uid="uid://ct2vnwofsekgj" path="res://assets/audio/coughs/cough8.wav" id="11_lgqa7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u8vuu"]
 size = Vector2(10, 13)
@@ -206,6 +215,35 @@ one_shot = true
 
 [node name="Cougher" type="Node2D" parent="." unique_id=610894378]
 script = ExtResource("2_g2els")
+
+[node name="CoughSounds" type="Node" parent="Cougher" unique_id=1252407773]
+
+[node name="1" type="AudioStreamPlayer" parent="Cougher/CoughSounds" unique_id=1856928167]
+stream = ExtResource("4_fm80t")
+
+[node name="2" type="AudioStreamPlayer" parent="Cougher/CoughSounds" unique_id=936982995]
+stream = ExtResource("5_gx1jg")
+
+[node name="3" type="AudioStreamPlayer" parent="Cougher/CoughSounds" unique_id=1623096849]
+stream = ExtResource("6_ugbui")
+
+[node name="4" type="AudioStreamPlayer" parent="Cougher/CoughSounds" unique_id=687547713]
+stream = ExtResource("7_fcs02")
+
+[node name="5" type="AudioStreamPlayer" parent="Cougher/CoughSounds" unique_id=1877206669]
+stream = ExtResource("8_myrg7")
+
+[node name="6" type="AudioStreamPlayer" parent="Cougher/CoughSounds" unique_id=5796493]
+stream = ExtResource("9_kvlxm")
+
+[node name="7" type="AudioStreamPlayer" parent="Cougher/CoughSounds" unique_id=208444545]
+stream = ExtResource("10_uf5tr")
+
+[node name="8" type="AudioStreamPlayer" parent="Cougher/CoughSounds" unique_id=1248886953]
+stream = ExtResource("11_lgqa7")
+
+[node name="BoostSound" type="AudioStreamPlayer" parent="Cougher" unique_id=1465697432]
+stream = ExtResource("11_gx1jg")
 
 [node name="PauseTimer" type="Timer" parent="Cougher" unique_id=205898629]
 wait_time = 1.2
