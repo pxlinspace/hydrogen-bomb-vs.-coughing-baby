@@ -10,6 +10,7 @@ const WALL_JUMP_VELOCITY := Vector2(200, -300)
 const INITIAL_DIVE_VELOCITY: float = 200.0
 const INITIAL_DIVE_HORIZONTAL_FACTOR: float = 0.75
 const GRAVITY: float = 800.0
+const WALL_GRAVITY: float = 300.0
 const DIVE_GRAVITY: float = 1200.0
 const MAX_Y_VELOCITY: float = 500.0
 const MAX_DIVE_Y_VELOCITY: float = 700.0
@@ -54,7 +55,7 @@ func _update_animation() -> void:
 func _process_movement(delta: float) -> void:
 	var was_on_floor: bool = is_on_floor()
 	if not was_on_floor and jump_duration_timer.is_stopped():
-		var gravity: float = GRAVITY
+		var gravity: float = WALL_GRAVITY if (is_on_wall_only() and velocity.y > 0) else GRAVITY
 		var max_y_velocity: float = MAX_DIVE_Y_VELOCITY
 		if Input.is_action_pressed("dive"):
 			gravity = DIVE_GRAVITY
