@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://cngkhcuvi3x45" path="res://scenes/main.gd" id="1_sugp2"]
 [ext_resource type="Texture2D" uid="uid://drrt8agh8jgxe" path="res://assets/images/tileset_temp.png" id="2_0wfyh"]
 [ext_resource type="Texture2D" uid="uid://bm3ckabkyunfj" path="res://assets/images/cough-bar-temp.png" id="4_jyhfs"]
+[ext_resource type="FontFile" uid="uid://br00iygd0338q" path="res://assets/fonts/digital-Sheet.png" id="5_tbgi4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vtm10"]
 texture = ExtResource("2_0wfyh")
@@ -17,7 +18,16 @@ sources/0 = SubResource("TileSetAtlasSource_vtm10")
 [node name="Main" type="Node" unique_id=1029880596]
 script = ExtResource("1_sugp2")
 
+[node name="RestartTimer" type="Timer" parent="." unique_id=215946578]
+wait_time = 0.5
+
+[node name="BombTimer" type="Timer" parent="." unique_id=882243227]
+wait_time = 120.0
+one_shot = true
+autostart = true
+
 [node name="Stage" type="Node2D" parent="." unique_id=1875758802]
+position = Vector2(20, -380)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="Stage" unique_id=2003295303]
 position = Vector2(-1, 0)
@@ -60,16 +70,15 @@ text = "[A] or [D] to move
 [J] to boost towards direction
 hold [R] to restart"
 
-[node name="RestartTimer" type="Timer" parent="." unique_id=215946578]
-wait_time = 0.5
-
 [node name="GUI" type="CanvasLayer" parent="." unique_id=731714688]
 
 [node name="HUD" type="Control" parent="GUI" unique_id=616571288]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="RestartBar" type="TextureProgressBar" parent="GUI/HUD" unique_id=871795113]
 visible = false
@@ -84,5 +93,19 @@ step = 0.01
 fill_mode = 4
 nine_patch_stretch = true
 texture_progress = ExtResource("4_jyhfs")
+
+[node name="BombTimeLabel" type="Label" parent="GUI/HUD" unique_id=3306489]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -272.0
+offset_top = 5.0
+offset_right = 272.0
+offset_bottom = 133.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("5_tbgi4")
+theme_override_font_sizes/font_size = 128
+text = "02:00:00"
 
 [connection signal="timeout" from="RestartTimer" to="." method="_on_restart_timer_timeout"]
