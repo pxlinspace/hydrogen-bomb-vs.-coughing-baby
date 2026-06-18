@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://7xmjhp7p4g6q"]
+
+[ext_resource type="Script" uid="uid://cs2vn2eatk6qc" path="res://scenes/entities/booster.gd" id="1_ixumo"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_n08xa"]
+radius = 12.0
+
+[node name="Booster" type="StaticBody2D" unique_id=1258851248]
+collision_layer = 3
+script = ExtResource("1_ixumo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=852528238]
+shape = SubResource("CircleShape2D_n08xa")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1712786183]
+scale = Vector2(0.775, 0.775)
+polygon = PackedVector2Array(1, -16, -3, -15, -10, -13, -14, -8, -17, -1, -15, 6, -10, 13, -2, 15, 6, 15, 13, 9, 16, 0, 14, -7, 8, -14)

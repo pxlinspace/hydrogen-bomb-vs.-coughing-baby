@@ -1,5 +1,7 @@
 class_name Cougher extends Node2D
 
+signal touched_booster(booster_relative_position: Vector2)
+
 const COUGH_PARTICLES: PackedScene = preload("uid://02nwrd23es8q")
 const TWEEN_DURATION: float = 0.3
 const INITIAL_CHARGED_RING_RADIUS: float = 14.0
@@ -11,7 +13,8 @@ var _is_tweening: bool = false
 
 @onready var pause_timer: Timer = $PauseTimer
 @onready var pause_timer_bar: TextureProgressBar = $PauseTimerBar
-@onready var particle_container: Node2D = $ParticleContainer
+@onready var detection_timer: Timer = $DetectionTimer
+@onready var particle_area: Area2D = $ParticleArea
 @onready var cough_sounds: Node = $CoughSounds
 @onready var boost_sound: AudioStreamPlayer = $BoostSound
 
@@ -23,20 +26,35 @@ func play_cough_sound() -> void:
 
 
 func set_particle_rotation(angle: float) -> void:
-	particle_container.rotation = angle
+	particle_area.rotation = angle
 
 
-func cough(angle: float = particle_container.rotation) -> bool:
+func cough(angle: float = particle_area.rotation) -> bool:
 	set_particle_rotation(angle)
 	if pause_timer.is_stopped():
 		pause_timer.start()
 		pause_timer_bar.show()
-		var particles: CPUParticles2D = COUGH_PARTICLES.instantiate()
-		particles.emitting = true
-		particle_container.add_child(particles)
-		play_cough_sound()
+		_play_cough_effects()
+		particle_area.monitoring = true
+		detection_timer.start()
 		return true
 	return false
+
+
+func _on_detection_timer_timeout() -> void:
+	particle_area.monitoring = false
+
+
+func _play_cough_effects() -> void:
+	var particles: CPUParticles2D = COUGH_PARTICLES.instantiate()
+	particles.emitting = true
+	particle_area.add_child(particles)
+	play_cough_sound()
+
+
+func _on_particle_area_body_entered(booster: Booster) -> void:
+	booster.explode()
+	touched_booster.emit(booster.global_position - global_position)
 
 
 func _process(_delta: float) -> void:

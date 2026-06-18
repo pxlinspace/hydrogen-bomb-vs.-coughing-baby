@@ -130,3 +130,8 @@ func _stop_jump() -> void:
 func _apply_wall_jump() -> void:
 	velocity.y = WALL_JUMP_VELOCITY.y
 	velocity.x = WALL_JUMP_VELOCITY.x * (-1 if get_wall_normal().x < 0 else 1)
+
+
+func _on_cougher_touched_booster(booster_relative_position: Vector2) -> void:
+	print(booster_relative_position)
+	velocity = -booster_relative_position.normalized() * 670
