@@ -49,11 +49,10 @@ position_smoothing_enabled = true
 [node name="Labels" type="Node2D" parent="Stage" unique_id=90987075]
 
 [node name="EndLabel" type="Label" parent="Stage/Labels" unique_id=2137399179]
-visible = false
-offset_left = -23.0
-offset_top = -1037.0
-offset_right = 813.0
-offset_bottom = -656.0
+offset_left = 592.0
+offset_top = -1248.0
+offset_right = 1428.0
+offset_bottom = -867.0
 scale = Vector2(0.25, 0.25)
 theme_override_font_sizes/font_size = 32
 text = "That's it for now! Please offer feedback
@@ -84,7 +83,7 @@ offset_bottom = 275.0
 scale = Vector2(0.25, 0.25)
 theme_override_font_sizes/font_size = 32
 text = "
-[J] to boost forward
+[J] to boost forward with cough
 use [WASD] to aim boost direction"
 
 [node name="InstructionLabel3" type="Label" parent="Stage/Labels" unique_id=1108539366]
@@ -105,6 +104,15 @@ scale = Vector2(0.25, 0.25)
 theme_override_font_sizes/font_size = 32
 text = "[Space] on the wall
 to wall jump"
+
+[node name="InstructionLabel5" type="Label" parent="Stage/Labels" unique_id=294963937]
+offset_left = 134.0
+offset_top = -1049.0
+offset_right = 957.0
+offset_bottom = -812.0
+scale = Vector2(0.25, 0.25)
+theme_override_font_sizes/font_size = 32
+text = "Cough on a bomb to boost even farther"
 
 [node name="GUI" type="CanvasLayer" parent="." unique_id=731714688]
 

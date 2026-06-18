@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cs2vn2eatk6qc" path="res://scenes/entities/booster.gd" id="1_ixumo"]
 [ext_resource type="Texture2D" uid="uid://b8h0ou3qr8qsc" path="res://assets/images/booster-Sheet.png" id="2_5uqcs"]
+[ext_resource type="PackedScene" uid="uid://d0r6k1711y2kt" path="res://scenes/animations/explosion_animation.tscn" id="2_cqo38"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n08xa"]
 radius = 12.0
@@ -153,6 +154,22 @@ animations = [{
 [node name="Booster" type="StaticBody2D" unique_id=1258851248]
 collision_layer = 3
 script = ExtResource("1_ixumo")
+
+[node name="ExplosionAnimations" type="Node2D" parent="." unique_id=1538993534]
+
+[node name="ExplosionAnimation" parent="ExplosionAnimations" unique_id=885451737 instance=ExtResource("2_cqo38")]
+delay = 0.1
+tween_duration = 0.3
+final_radius = 40.0
+
+[node name="ExplosionAnimation2" parent="ExplosionAnimations" unique_id=1678000494 instance=ExtResource("2_cqo38")]
+delay = 0.05
+final_radius = 75.0
+color = Color(0.9083771, 0.782291, 0.37224528, 1)
+
+[node name="ExplosionAnimation3" parent="ExplosionAnimations" unique_id=2128499876 instance=ExtResource("2_cqo38")]
+tween_duration = 0.5
+color = Color(0.91, 0.5252217, 0.37310004, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=852528238]
 visible = false
