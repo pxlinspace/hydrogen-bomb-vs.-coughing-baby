@@ -41,7 +41,7 @@ tile_map_data = PackedByteArray("AAACABMAAAAAAAAAAAACABQAAAAAAAAAAAACABUAAAAAAAA
 tile_set = SubResource("TileSet_a0f05")
 
 [node name="Player" parent="Stage" unique_id=1106602383 instance=ExtResource("1_0wfyh")]
-position = Vector2(163, -1016)
+position = Vector2(-126, 226)
 
 [node name="Camera2D" type="Camera2D" parent="Stage/Player" unique_id=524223279]
 position_smoothing_enabled = true
