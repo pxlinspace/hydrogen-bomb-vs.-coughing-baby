@@ -16,13 +16,13 @@ const MAX_Y_VELOCITY: float = 500.0
 const MAX_DIVE_Y_VELOCITY: float = 700.0
 const HIT_POWER: float = 100.0
 
+var last_direction: float = 1.0
+
 @onready var coyote_jump_timer: Timer = $CoyoteJumpTimer
 @onready var jump_buffer_timer: Timer = $JumpBufferTimer
 @onready var jump_duration_timer: Timer = $JumpDurationTimer
 @onready var cougher: Cougher = $Cougher
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
-
-var last_direction: float = 1.0
 
 
 func _physics_process(delta: float) -> void:

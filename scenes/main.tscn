@@ -33,7 +33,7 @@ position = Vector2(20, -380)
 [node name="Boosters" type="Node2D" parent="Stage" unique_id=886322297]
 
 [node name="Booster" parent="Stage/Boosters" unique_id=1258851248 instance=ExtResource("3_tefeu")]
-position = Vector2(259, -976)
+position = Vector2(234, -979)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="Stage" unique_id=2003295303]
 position = Vector2(-1, 0)
@@ -44,7 +44,6 @@ tile_set = SubResource("TileSet_a0f05")
 position = Vector2(163, -1016)
 
 [node name="Camera2D" type="Camera2D" parent="Stage/Player" unique_id=524223279]
-zoom = Vector2(2, 2)
 position_smoothing_enabled = true
 
 [node name="Labels" type="Node2D" parent="Stage" unique_id=90987075]
@@ -137,12 +136,13 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -272.0
-offset_top = 5.0
+offset_top = 3.0
 offset_right = 272.0
-offset_bottom = 133.0
+offset_bottom = 131.0
 grow_horizontal = 2
 theme_override_fonts/font = ExtResource("5_tbgi4")
-theme_override_font_sizes/font_size = 128
+theme_override_font_sizes/font_size = 64
 text = "02:00:00"
+horizontal_alignment = 1
 
 [connection signal="timeout" from="RestartTimer" to="." method="_on_restart_timer_timeout"]
